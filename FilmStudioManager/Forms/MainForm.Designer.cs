@@ -1,4 +1,4 @@
-﻿namespace BookcrossingApp.Forms
+﻿namespace FilmStudioManager.Forms
 {
     partial class MainForm
     {
@@ -29,349 +29,370 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.logoutButton = new System.Windows.Forms.Button();
-            this.borrowedButton = new System.Windows.Forms.Button();
-            this.myBooksButton = new System.Windows.Forms.Button();
-            this.homeButton = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.welcomeLabel2 = new System.Windows.Forms.Label();
-            this.welcomeLabel1 = new System.Windows.Forms.Label();
-            this.HomeDataGridViewMainPanel = new System.Windows.Forms.Panel();
-            this.HomeDataGridView = new System.Windows.Forms.DataGridView();
-            this.controlPanel = new System.Windows.Forms.Panel();
-            this.refreshButton = new System.Windows.Forms.Button();
-            this.deleteBookButton = new System.Windows.Forms.Button();
-            this.returnBookButton = new System.Windows.Forms.Button();
-            this.borrowBookButton = new System.Windows.Forms.Button();
-            this.addBookButton = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel3.SuspendLayout();
-            this.HomeDataGridViewMainPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HomeDataGridView)).BeginInit();
-            this.controlPanel.SuspendLayout();
-            this.SuspendLayout();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            panel1 = new Panel();
+            logoutButton = new Button();
+            activeProjectsButton = new Button();
+            workersButton = new Button();
+            projectsButton = new Button();
+            panel2 = new Panel();
+            pictureBox1 = new PictureBox();
+            panel3 = new Panel();
+            welcomeLabel2 = new Label();
+            welcomeLabel = new Label();
+            HomeDataGridViewMainPanel = new Panel();
+            mainDataGridView = new DataGridView();
+            controlPanel = new Panel();
+            refreshButton = new Button();
+            deleteButton = new Button();
+            editButton = new Button();
+            addButton = new Button();
+            assignButton = new Button();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel3.SuspendLayout();
+            HomeDataGridViewMainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)mainDataGridView).BeginInit();
+            controlPanel.SuspendLayout();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DarkSlateBlue;
-            this.panel1.Controls.Add(this.logoutButton);
-            this.panel1.Controls.Add(this.borrowedButton);
-            this.panel1.Controls.Add(this.myBooksButton);
-            this.panel1.Controls.Add(this.homeButton);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(316, 638);
-            this.panel1.TabIndex = 0;
+            panel1.BackColor = Color.DarkSlateBlue;
+            panel1.Controls.Add(logoutButton);
+            panel1.Controls.Add(activeProjectsButton);
+            panel1.Controls.Add(workersButton);
+            panel1.Controls.Add(projectsButton);
+            panel1.Controls.Add(panel2);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(4, 5, 4, 5);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(421, 982);
+            panel1.TabIndex = 0;
             // 
             // logoutButton
             // 
-            this.logoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.logoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.logoutButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.logoutButton.Enabled = false;
-            this.logoutButton.FlatAppearance.BorderSize = 0;
-            this.logoutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.logoutButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.logoutButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.logoutButton.Image = ((System.Drawing.Image)(resources.GetObject("logoutButton.Image")));
-            this.logoutButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.logoutButton.Location = new System.Drawing.Point(0, 310);
-            this.logoutButton.Name = "logoutButton";
-            this.logoutButton.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.logoutButton.Size = new System.Drawing.Size(316, 50);
-            this.logoutButton.TabIndex = 12;
-            this.logoutButton.Text = "         Вийти                                ";
-            this.logoutButton.UseVisualStyleBackColor = true;
-            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
+            logoutButton.BackgroundImageLayout = ImageLayout.Center;
+            logoutButton.Cursor = Cursors.Hand;
+            logoutButton.Dock = DockStyle.Top;
+            logoutButton.Enabled = false;
+            logoutButton.FlatAppearance.BorderSize = 0;
+            logoutButton.FlatStyle = FlatStyle.Flat;
+            logoutButton.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            logoutButton.ForeColor = Color.WhiteSmoke;
+            logoutButton.Image = (Image)resources.GetObject("logoutButton.Image");
+            logoutButton.ImageAlign = ContentAlignment.MiddleLeft;
+            logoutButton.Location = new Point(0, 477);
+            logoutButton.Margin = new Padding(4, 5, 4, 5);
+            logoutButton.Name = "logoutButton";
+            logoutButton.Padding = new Padding(27, 0, 0, 0);
+            logoutButton.Size = new Size(421, 77);
+            logoutButton.TabIndex = 12;
+            logoutButton.Text = "         Вийти                                ";
+            logoutButton.UseVisualStyleBackColor = true;
+            logoutButton.Click += logoutButton_Click;
             // 
-            // borrowedButton
+            // activeProjectsButton
             // 
-            this.borrowedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.borrowedButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.borrowedButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.borrowedButton.FlatAppearance.BorderSize = 0;
-            this.borrowedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borrowedButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.borrowedButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.borrowedButton.Image = ((System.Drawing.Image)(resources.GetObject("borrowedButton.Image")));
-            this.borrowedButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borrowedButton.Location = new System.Drawing.Point(0, 260);
-            this.borrowedButton.Name = "borrowedButton";
-            this.borrowedButton.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.borrowedButton.Size = new System.Drawing.Size(316, 50);
-            this.borrowedButton.TabIndex = 9;
-            this.borrowedButton.Text = "Позичені                ";
-            this.borrowedButton.UseVisualStyleBackColor = true;
-            this.borrowedButton.Click += new System.EventHandler(this.borrowedButton_Click);
+            activeProjectsButton.BackgroundImageLayout = ImageLayout.Center;
+            activeProjectsButton.Cursor = Cursors.Hand;
+            activeProjectsButton.Dock = DockStyle.Top;
+            activeProjectsButton.FlatAppearance.BorderSize = 0;
+            activeProjectsButton.FlatStyle = FlatStyle.Flat;
+            activeProjectsButton.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            activeProjectsButton.ForeColor = Color.WhiteSmoke;
+            activeProjectsButton.Image = (Image)resources.GetObject("activeProjectsButton.Image");
+            activeProjectsButton.ImageAlign = ContentAlignment.MiddleLeft;
+            activeProjectsButton.Location = new Point(0, 400);
+            activeProjectsButton.Margin = new Padding(4, 5, 4, 5);
+            activeProjectsButton.Name = "activeProjectsButton";
+            activeProjectsButton.Padding = new Padding(27, 0, 0, 0);
+            activeProjectsButton.Size = new Size(421, 77);
+            activeProjectsButton.TabIndex = 9;
+            activeProjectsButton.Text = "Активні Проекти   ";
+            activeProjectsButton.UseVisualStyleBackColor = true;
+            activeProjectsButton.Click += activeProjectsButton_Click;
             // 
-            // myBooksButton
+            // workersButton
             // 
-            this.myBooksButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.myBooksButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.myBooksButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.myBooksButton.FlatAppearance.BorderSize = 0;
-            this.myBooksButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.myBooksButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.myBooksButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.myBooksButton.Image = ((System.Drawing.Image)(resources.GetObject("myBooksButton.Image")));
-            this.myBooksButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.myBooksButton.Location = new System.Drawing.Point(0, 210);
-            this.myBooksButton.Name = "myBooksButton";
-            this.myBooksButton.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.myBooksButton.Size = new System.Drawing.Size(316, 50);
-            this.myBooksButton.TabIndex = 8;
-            this.myBooksButton.Text = "Мої Книги              ";
-            this.myBooksButton.UseVisualStyleBackColor = true;
-            this.myBooksButton.Click += new System.EventHandler(this.myBooksButton_Click);
+            workersButton.BackgroundImageLayout = ImageLayout.Center;
+            workersButton.Cursor = Cursors.Hand;
+            workersButton.Dock = DockStyle.Top;
+            workersButton.FlatAppearance.BorderSize = 0;
+            workersButton.FlatStyle = FlatStyle.Flat;
+            workersButton.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            workersButton.ForeColor = Color.WhiteSmoke;
+            workersButton.Image = (Image)resources.GetObject("workersButton.Image");
+            workersButton.ImageAlign = ContentAlignment.MiddleLeft;
+            workersButton.Location = new Point(0, 323);
+            workersButton.Margin = new Padding(4, 5, 4, 5);
+            workersButton.Name = "workersButton";
+            workersButton.Padding = new Padding(27, 0, 0, 0);
+            workersButton.Size = new Size(421, 77);
+            workersButton.TabIndex = 8;
+            workersButton.Text = "Працівники            ";
+            workersButton.UseVisualStyleBackColor = true;
+            workersButton.Click += workersButton_Click;
             // 
-            // homeButton
+            // projectsButton
             // 
-            this.homeButton.BackColor = System.Drawing.Color.DarkSlateBlue;
-            this.homeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.homeButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.homeButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.homeButton.FlatAppearance.BorderSize = 0;
-            this.homeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.homeButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.homeButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.homeButton.Image = ((System.Drawing.Image)(resources.GetObject("homeButton.Image")));
-            this.homeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.homeButton.Location = new System.Drawing.Point(0, 160);
-            this.homeButton.Name = "homeButton";
-            this.homeButton.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.homeButton.Size = new System.Drawing.Size(316, 50);
-            this.homeButton.TabIndex = 7;
-            this.homeButton.Text = "Головна                  ";
-            this.homeButton.UseVisualStyleBackColor = false;
-            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
+            projectsButton.BackColor = Color.DarkSlateBlue;
+            projectsButton.BackgroundImageLayout = ImageLayout.Center;
+            projectsButton.Cursor = Cursors.Hand;
+            projectsButton.Dock = DockStyle.Top;
+            projectsButton.FlatAppearance.BorderSize = 0;
+            projectsButton.FlatStyle = FlatStyle.Flat;
+            projectsButton.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            projectsButton.ForeColor = Color.WhiteSmoke;
+            projectsButton.Image = (Image)resources.GetObject("projectsButton.Image");
+            projectsButton.ImageAlign = ContentAlignment.MiddleLeft;
+            projectsButton.Location = new Point(0, 246);
+            projectsButton.Margin = new Padding(4, 5, 4, 5);
+            projectsButton.Name = "projectsButton";
+            projectsButton.Padding = new Padding(27, 0, 0, 0);
+            projectsButton.Size = new Size(421, 77);
+            projectsButton.TabIndex = 7;
+            projectsButton.Text = "Всі Проекти            ";
+            projectsButton.UseVisualStyleBackColor = false;
+            projectsButton.Click += projectsButton_Click;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(316, 160);
-            this.panel2.TabIndex = 0;
+            panel2.Controls.Add(pictureBox1);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(4, 5, 4, 5);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(421, 246);
+            panel2.TabIndex = 0;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(89, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(138, 130);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(119, 18);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(184, 200);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 13;
+            pictureBox1.TabStop = false;
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.welcomeLabel2);
-            this.panel3.Controls.Add(this.welcomeLabel1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(316, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1091, 94);
-            this.panel3.TabIndex = 1;
+            panel3.BackColor = Color.White;
+            panel3.Controls.Add(welcomeLabel2);
+            panel3.Controls.Add(welcomeLabel);
+            panel3.Dock = DockStyle.Top;
+            panel3.Location = new Point(421, 0);
+            panel3.Margin = new Padding(4, 5, 4, 5);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1455, 145);
+            panel3.TabIndex = 1;
             // 
             // welcomeLabel2
             // 
-            this.welcomeLabel2.AutoSize = true;
-            this.welcomeLabel2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.welcomeLabel2.Location = new System.Drawing.Point(41, 55);
-            this.welcomeLabel2.Name = "welcomeLabel2";
-            this.welcomeLabel2.Size = new System.Drawing.Size(530, 19);
-            this.welcomeLabel2.TabIndex = 1;
-            this.welcomeLabel2.Text = "Explore the latest books available for borrowing or add your own books to share.";
+            welcomeLabel2.AutoSize = true;
+            welcomeLabel2.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            welcomeLabel2.Location = new Point(55, 85);
+            welcomeLabel2.Margin = new Padding(4, 0, 4, 0);
+            welcomeLabel2.Name = "welcomeLabel2";
+            welcomeLabel2.Size = new Size(307, 24);
+            welcomeLabel2.TabIndex = 1;
+            welcomeLabel2.Text = "Керування проектами фільм-студії";
             // 
-            // welcomeLabel1
+            // welcomeLabel
             // 
-            this.welcomeLabel1.AutoSize = true;
-            this.welcomeLabel1.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.welcomeLabel1.Location = new System.Drawing.Point(40, 17);
-            this.welcomeLabel1.Name = "welcomeLabel1";
-            this.welcomeLabel1.Size = new System.Drawing.Size(118, 29);
-            this.welcomeLabel1.TabIndex = 0;
-            this.welcomeLabel1.Text = "Welcome, ";
+            welcomeLabel.AutoSize = true;
+            welcomeLabel.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            welcomeLabel.Location = new Point(53, 26);
+            welcomeLabel.Margin = new Padding(4, 0, 4, 0);
+            welcomeLabel.Name = "welcomeLabel";
+            welcomeLabel.Size = new Size(133, 37);
+            welcomeLabel.TabIndex = 0;
+            welcomeLabel.Text = "Вітаємо, ";
             // 
             // HomeDataGridViewMainPanel
             // 
-            this.HomeDataGridViewMainPanel.BackColor = System.Drawing.Color.Transparent;
-            this.HomeDataGridViewMainPanel.Controls.Add(this.HomeDataGridView);
-            this.HomeDataGridViewMainPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.HomeDataGridViewMainPanel.Location = new System.Drawing.Point(316, 166);
-            this.HomeDataGridViewMainPanel.Name = "HomeDataGridViewMainPanel";
-            this.HomeDataGridViewMainPanel.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.HomeDataGridViewMainPanel.Size = new System.Drawing.Size(1091, 472);
-            this.HomeDataGridViewMainPanel.TabIndex = 5;
+            HomeDataGridViewMainPanel.BackColor = Color.Transparent;
+            HomeDataGridViewMainPanel.Controls.Add(mainDataGridView);
+            HomeDataGridViewMainPanel.Dock = DockStyle.Bottom;
+            HomeDataGridViewMainPanel.Location = new Point(421, 256);
+            HomeDataGridViewMainPanel.Margin = new Padding(4, 5, 4, 5);
+            HomeDataGridViewMainPanel.Name = "HomeDataGridViewMainPanel";
+            HomeDataGridViewMainPanel.Padding = new Padding(0, 15, 0, 0);
+            HomeDataGridViewMainPanel.Size = new Size(1455, 726);
+            HomeDataGridViewMainPanel.TabIndex = 5;
             // 
-            // HomeDataGridView
+            // mainDataGridView
             // 
-            this.HomeDataGridView.AllowUserToAddRows = false;
-            this.HomeDataGridView.AllowUserToDeleteRows = false;
-            this.HomeDataGridView.AllowUserToResizeColumns = false;
-            this.HomeDataGridView.AllowUserToResizeRows = false;
-            this.HomeDataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.HomeDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.HomeDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.HomeDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.HomeDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.HomeDataGridView.ColumnHeadersHeight = 45;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.HomeDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.HomeDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HomeDataGridView.EnableHeadersVisualStyles = false;
-            this.HomeDataGridView.GridColor = System.Drawing.Color.LightGray;
-            this.HomeDataGridView.Location = new System.Drawing.Point(0, 10);
-            this.HomeDataGridView.MultiSelect = false;
-            this.HomeDataGridView.Name = "HomeDataGridView";
-            this.HomeDataGridView.ReadOnly = true;
-            this.HomeDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Navy;
-            this.HomeDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.HomeDataGridView.RowTemplate.DividerHeight = 2;
-            this.HomeDataGridView.RowTemplate.Height = 45;
-            this.HomeDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.HomeDataGridView.Size = new System.Drawing.Size(1091, 462);
-            this.HomeDataGridView.TabIndex = 2;
+            mainDataGridView.AllowUserToAddRows = false;
+            mainDataGridView.AllowUserToDeleteRows = false;
+            mainDataGridView.AllowUserToResizeColumns = false;
+            mainDataGridView.AllowUserToResizeRows = false;
+            mainDataGridView.BackgroundColor = Color.WhiteSmoke;
+            mainDataGridView.BorderStyle = BorderStyle.None;
+            mainDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            mainDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = Color.SlateBlue;
+            dataGridViewCellStyle13.Font = new Font("Segoe UI", 11F);
+            dataGridViewCellStyle13.ForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle13.SelectionBackColor = Color.MediumSlateBlue;
+            dataGridViewCellStyle13.SelectionForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            mainDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            mainDataGridView.ColumnHeadersHeight = 45;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle14.Font = new Font("Segoe UI", 11F);
+            dataGridViewCellStyle14.ForeColor = Color.DarkSlateBlue;
+            dataGridViewCellStyle14.SelectionBackColor = Color.MediumSlateBlue;
+            dataGridViewCellStyle14.SelectionForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
+            mainDataGridView.DefaultCellStyle = dataGridViewCellStyle14;
+            mainDataGridView.Dock = DockStyle.Fill;
+            mainDataGridView.EnableHeadersVisualStyles = false;
+            mainDataGridView.GridColor = Color.LightGray;
+            mainDataGridView.Location = new Point(0, 15);
+            mainDataGridView.Margin = new Padding(4, 5, 4, 5);
+            mainDataGridView.MultiSelect = false;
+            mainDataGridView.Name = "mainDataGridView";
+            mainDataGridView.ReadOnly = true;
+            mainDataGridView.RowHeadersVisible = false;
+            mainDataGridView.RowHeadersWidth = 51;
+            dataGridViewCellStyle15.BackColor = Color.Navy;
+            mainDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            mainDataGridView.RowTemplate.DividerHeight = 2;
+            mainDataGridView.RowTemplate.Height = 45;
+            mainDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            mainDataGridView.Size = new Size(1455, 711);
+            mainDataGridView.TabIndex = 2;
+            mainDataGridView.SelectionChanged += mainDataGridView_SelectionChanged;
             // 
             // controlPanel
             // 
-            this.controlPanel.Controls.Add(this.refreshButton);
-            this.controlPanel.Controls.Add(this.deleteBookButton);
-            this.controlPanel.Controls.Add(this.returnBookButton);
-            this.controlPanel.Controls.Add(this.borrowBookButton);
-            this.controlPanel.Controls.Add(this.addBookButton);
-            this.controlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlPanel.Location = new System.Drawing.Point(316, 94);
-            this.controlPanel.Name = "controlPanel";
-            this.controlPanel.Size = new System.Drawing.Size(1091, 72);
-            this.controlPanel.TabIndex = 6;
+            controlPanel.Controls.Add(refreshButton);
+            controlPanel.Controls.Add(deleteButton);
+            controlPanel.Controls.Add(editButton);
+            controlPanel.Controls.Add(addButton);
+            controlPanel.Controls.Add(assignButton);
+            controlPanel.Dock = DockStyle.Fill;
+            controlPanel.Location = new Point(421, 145);
+            controlPanel.Margin = new Padding(4, 5, 4, 5);
+            controlPanel.Name = "controlPanel";
+            controlPanel.Size = new Size(1455, 111);
+            controlPanel.TabIndex = 6;
             // 
             // refreshButton
             // 
-            this.refreshButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.refreshButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("refreshButton.BackgroundImage")));
-            this.refreshButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.refreshButton.FlatAppearance.BorderSize = 0;
-            this.refreshButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.refreshButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.refreshButton.Location = new System.Drawing.Point(45, 17);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(38, 38);
-            this.refreshButton.TabIndex = 5;
-            this.refreshButton.UseVisualStyleBackColor = false;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            refreshButton.BackColor = Color.RoyalBlue;
+            refreshButton.BackgroundImage = (Image)resources.GetObject("refreshButton.BackgroundImage");
+            refreshButton.BackgroundImageLayout = ImageLayout.Zoom;
+            refreshButton.FlatAppearance.BorderSize = 0;
+            refreshButton.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            refreshButton.ForeColor = Color.WhiteSmoke;
+            refreshButton.Location = new Point(60, 26);
+            refreshButton.Margin = new Padding(4, 5, 4, 5);
+            refreshButton.Name = "refreshButton";
+            refreshButton.Size = new Size(51, 58);
+            refreshButton.TabIndex = 5;
+            refreshButton.UseVisualStyleBackColor = false;
+            refreshButton.Click += refreshButton_Click;
             // 
-            // deleteBookButton
+            // deleteButton
             // 
-            this.deleteBookButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.deleteBookButton.FlatAppearance.BorderSize = 0;
-            this.deleteBookButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.deleteBookButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.deleteBookButton.Location = new System.Drawing.Point(463, 17);
-            this.deleteBookButton.Name = "deleteBookButton";
-            this.deleteBookButton.Size = new System.Drawing.Size(180, 38);
-            this.deleteBookButton.TabIndex = 4;
-            this.deleteBookButton.Text = "Видалити";
-            this.deleteBookButton.UseVisualStyleBackColor = false;
-            this.deleteBookButton.Click += new System.EventHandler(this.deleteBookButton_Click);
+            deleteButton.BackColor = Color.RoyalBlue;
+            deleteButton.FlatAppearance.BorderSize = 0;
+            deleteButton.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            deleteButton.ForeColor = Color.WhiteSmoke;
+            deleteButton.Location = new Point(617, 26);
+            deleteButton.Margin = new Padding(4, 5, 4, 5);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(240, 58);
+            deleteButton.TabIndex = 4;
+            deleteButton.Text = "Видалити";
+            deleteButton.UseVisualStyleBackColor = false;
+            deleteButton.Click += deleteButton_Click;
             // 
-            // returnBookButton
+            // editButton
             // 
-            this.returnBookButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.returnBookButton.FlatAppearance.BorderSize = 0;
-            this.returnBookButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.returnBookButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.returnBookButton.Location = new System.Drawing.Point(277, 17);
-            this.returnBookButton.Name = "returnBookButton";
-            this.returnBookButton.Size = new System.Drawing.Size(180, 38);
-            this.returnBookButton.TabIndex = 3;
-            this.returnBookButton.Text = "Повернути";
-            this.returnBookButton.UseVisualStyleBackColor = false;
-            this.returnBookButton.Click += new System.EventHandler(this.returnBookButton_Click);
+            editButton.BackColor = Color.RoyalBlue;
+            editButton.FlatAppearance.BorderSize = 0;
+            editButton.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            editButton.ForeColor = Color.WhiteSmoke;
+            editButton.Location = new Point(369, 26);
+            editButton.Margin = new Padding(4, 5, 4, 5);
+            editButton.Name = "editButton";
+            editButton.Size = new Size(240, 58);
+            editButton.TabIndex = 3;
+            editButton.Text = "Редагувати";
+            editButton.UseVisualStyleBackColor = false;
+            editButton.Click += editButton_Click;
             // 
-            // borrowBookButton
+            // addButton
             // 
-            this.borrowBookButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.borrowBookButton.Enabled = false;
-            this.borrowBookButton.FlatAppearance.BorderSize = 0;
-            this.borrowBookButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.borrowBookButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.borrowBookButton.Location = new System.Drawing.Point(91, 17);
-            this.borrowBookButton.Name = "borrowBookButton";
-            this.borrowBookButton.Size = new System.Drawing.Size(180, 38);
-            this.borrowBookButton.TabIndex = 2;
-            this.borrowBookButton.Text = "Позичити";
-            this.borrowBookButton.UseVisualStyleBackColor = false;
-            this.borrowBookButton.Click += new System.EventHandler(this.borrowBookButton_Click);
+            addButton.BackColor = Color.RoyalBlue;
+            addButton.Enabled = false;
+            addButton.FlatAppearance.BorderSize = 0;
+            addButton.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            addButton.ForeColor = Color.WhiteSmoke;
+            addButton.Location = new Point(121, 26);
+            addButton.Margin = new Padding(4, 5, 4, 5);
+            addButton.Name = "addButton";
+            addButton.Size = new Size(240, 58);
+            addButton.TabIndex = 2;
+            addButton.Text = "Додати Проект";
+            addButton.UseVisualStyleBackColor = false;
+            addButton.Click += addButton_Click;
             // 
-            // addBookButton
+            // assignButton
             // 
-            this.addBookButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.addBookButton.Enabled = false;
-            this.addBookButton.FlatAppearance.BorderSize = 0;
-            this.addBookButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addBookButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.addBookButton.Location = new System.Drawing.Point(868, 17);
-            this.addBookButton.Name = "addBookButton";
-            this.addBookButton.Size = new System.Drawing.Size(180, 38);
-            this.addBookButton.TabIndex = 1;
-            this.addBookButton.Text = "Додати Книгу";
-            this.addBookButton.UseVisualStyleBackColor = false;
-            this.addBookButton.Click += new System.EventHandler(this.addBookButton_Click);
+            assignButton.BackColor = Color.RoyalBlue;
+            assignButton.Enabled = false;
+            assignButton.FlatAppearance.BorderSize = 0;
+            assignButton.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            assignButton.ForeColor = Color.WhiteSmoke;
+            assignButton.Location = new Point(1157, 26);
+            assignButton.Margin = new Padding(4, 5, 4, 5);
+            assignButton.Name = "assignButton";
+            assignButton.Size = new Size(240, 58);
+            assignButton.TabIndex = 1;
+            assignButton.Text = "Призначити працівника";
+            assignButton.UseVisualStyleBackColor = false;
+            assignButton.Click += assignButton_Click;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1407, 638);
-            this.Controls.Add(this.controlPanel);
-            this.Controls.Add(this.HomeDataGridViewMainPanel);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
-            this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.HomeDataGridViewMainPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HomeDataGridView)).EndInit();
-            this.controlPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(1876, 982);
+            Controls.Add(controlPanel);
+            Controls.Add(HomeDataGridViewMainPanel);
+            Controls.Add(panel3);
+            Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "MainForm";
+            Activated += MainForm_Activated;
+            FormClosed += MainForm_FormClosed;
+            panel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            HomeDataGridViewMainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)mainDataGridView).EndInit();
+            controlPanel.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
@@ -380,20 +401,20 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button borrowedButton;
-        private System.Windows.Forms.Button myBooksButton;
-        private System.Windows.Forms.Button homeButton;
+        private System.Windows.Forms.Button activeProjectsButton;
+        private System.Windows.Forms.Button workersButton;
+        private System.Windows.Forms.Button projectsButton;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label welcomeLabel1;
+        private System.Windows.Forms.Label welcomeLabel;
         private System.Windows.Forms.Label welcomeLabel2;
         private System.Windows.Forms.Button logoutButton;
         private System.Windows.Forms.Panel HomeDataGridViewMainPanel;
-        private System.Windows.Forms.DataGridView HomeDataGridView;
+        private System.Windows.Forms.DataGridView mainDataGridView;
         private System.Windows.Forms.Panel controlPanel;
-        private System.Windows.Forms.Button borrowBookButton;
-        private System.Windows.Forms.Button addBookButton;
-        private System.Windows.Forms.Button deleteBookButton;
-        private System.Windows.Forms.Button returnBookButton;
+        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button assignButton;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button refreshButton;
     }
 }

@@ -1,49 +1,54 @@
-﻿using BookcrossingApp.Models;
-using BookcrossingApp.Repositories;
-using BookcrossingApp.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using FilmStudioManager.Models;
+using FilmStudioManager.Repositories;
+using FilmStudioManager.Services;
 
-namespace BookcrossingApp.Forms
+namespace FilmStudioManager.Forms
 {
-    public partial class MainForm: Form
+    public partial class MainForm : Form
     {
+        private string currentView = "projects"; // projects, workers, myProjects
+
         public MainForm()
         {
             InitializeComponent();
 
-            DatabaseService.Connect("neo4j://localhost:7687", "neo4j", "1234567890");
+            string connectionString = "Server=localhost;Database=FilmStudioManager;Integrated Security=True;TrustServerCertificate=True;";
+            DatabaseService.Connect(connectionString);
 
             if (CurrentState.GetInstance().User == null)
             {
                 LoginForm loginForm = new LoginForm();
                 loginForm.Show();
+                this.Hide();
             }
         }
 
-        public async void LoadHomePage()
+        public async void LoadProjectsPage()
         {
             if (!await CheckDatabaseConnection()) return;
 
             try
             {
-                BookRepository bookRepository = new BookRepository();
-
+                currentView = "projects";
                 Cursor = Cursors.WaitCursor;
-                List<Book> books = await bookRepository.GetAllBooksAsync();
 
-                HomeDataGridView.DataSource = books;
-                ConfigureDataGridView(HomeDataGridView);
-                SetupColumnsProperties(HomeDataGridView);
+                ProjectRepository projectRepository = new ProjectRepository();
+                List<Project> projects = await projectRepository.GetAllProjectsAsync();
 
-                returnBookButton.Enabled = false;
+                // Отримуємо розширену інформацію про проекти з типами
+                var projectsWithTypes = await GetProjectsWithTypesAsync(projects);
+
+                mainDataGridView.DataSource = projectsWithTypes;
+                ConfigureDataGridView(mainDataGridView);
+                SetupProjectColumnsProperties(mainDataGridView);
+
+                // Налаштовуємо кнопки
+                addButton.Text = "Додати Проект";
+                addButton.Enabled = true;
+                editButton.Enabled = false;
+                deleteButton.Enabled = false;
+                assignButton.Text = "Призначити Працівника";
+                assignButton.Enabled = false;
             }
             finally
             {
@@ -51,22 +56,29 @@ namespace BookcrossingApp.Forms
             }
         }
 
-        public async void LoadMyBooksPage()
+        public async void LoadWorkersPage()
         {
             if (!await CheckDatabaseConnection()) return;
 
             try
             {
-                UserRepository userRepository = new UserRepository();
-
+                currentView = "workers";
                 Cursor = Cursors.WaitCursor;
-                List<Book> books = await userRepository.GetBooksAddedByUserAsync(CurrentState.GetInstance().User.UniqueIdentifier);
 
-                HomeDataGridView.DataSource = books;
-                ConfigureDataGridView(HomeDataGridView);
-                SetupColumnsProperties(HomeDataGridView);
+                WorkerRepository workerRepository = new WorkerRepository();
+                List<Worker> workers = await workerRepository.GetAllWorkersAsync();
 
-                returnBookButton.Enabled = false;
+                mainDataGridView.DataSource = workers;
+                ConfigureDataGridView(mainDataGridView);
+                SetupWorkerColumnsProperties(mainDataGridView);
+
+                // Налаштовуємо кнопки
+                addButton.Text = "Додати Працівника";
+                addButton.Enabled = true;
+                editButton.Enabled = false;
+                deleteButton.Enabled = false;
+                assignButton.Text = "Призначити на Проект";
+                assignButton.Enabled = false;
             }
             finally
             {
@@ -74,28 +86,59 @@ namespace BookcrossingApp.Forms
             }
         }
 
-        public async void LoadBorrowedPage()
+        public async void LoadActiveProjectsPage()
         {
             if (!await CheckDatabaseConnection()) return;
 
             try
             {
-                UserRepository userRepository = new UserRepository();
-
+                currentView = "activeProjects";
                 Cursor = Cursors.WaitCursor;
-                List<Book> books = await userRepository.GetBooksReferencedByUserRecordsAsync(CurrentState.GetInstance().User.UniqueIdentifier);
-                List<Book> booksToShow = books.Where(b => b.Status == "Позичена").ToList();
 
-                HomeDataGridView.DataSource = booksToShow;
-                ConfigureDataGridView(HomeDataGridView);
-                SetupColumnsProperties(HomeDataGridView);
+                ProjectRepository projectRepository = new ProjectRepository();
+                List<Project> projects = await projectRepository.GetProjectsByStatusAsync("В роботі");
 
-                returnBookButton.Enabled = true;
+                var projectsWithTypes = await GetProjectsWithTypesAsync(projects);
+
+                mainDataGridView.DataSource = projectsWithTypes;
+                ConfigureDataGridView(mainDataGridView);
+                SetupProjectColumnsProperties(mainDataGridView);
+
+                // Налаштовуємо кнопки
+                addButton.Text = "Додати Проект";
+                addButton.Enabled = true;
+                editButton.Enabled = false;
+                deleteButton.Enabled = false;
+                assignButton.Text = "Призначити Працівника";
+                assignButton.Enabled = false;
             }
             finally
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private async Task<List<object>> GetProjectsWithTypesAsync(List<Project> projects)
+        {
+            var projectsWithTypes = new List<object>();
+            ProjectTypeRepository projectTypeRepository = new ProjectTypeRepository();
+
+            foreach (var project in projects)
+            {
+                var projectType = await projectTypeRepository.GetProjectTypeByIdAsync(project.ProjectTypeID);
+                projectsWithTypes.Add(new
+                {
+                    ProjectID = project.ProjectID,
+                    ProjectName = project.ProjectName,
+                    ProjectType = projectType?.TypeName ?? "Невідомо",
+                    Budget = project.Budget,
+                    StartDate = project.StartDate,
+                    EndDate = project.EndDate,
+                    Status = project.Status
+                });
+            }
+
+            return projectsWithTypes;
         }
 
         private async Task<bool> CheckDatabaseConnection()
@@ -117,29 +160,35 @@ namespace BookcrossingApp.Forms
 
             if (currentUser != null)
             {
-                welcomeLabel1.Text = "Вітаємо, " + CurrentState.GetInstance().User.Login + "!";
-                myBooksButton.Enabled = true;
-                borrowedButton.Enabled = true;
+                welcomeLabel.Text = "Вітаємо, " + currentUser.Login + "!";
+                projectsButton.Enabled = true;
+                workersButton.Enabled = true;
+                activeProjectsButton.Enabled = true;
                 logoutButton.Enabled = true;
-
-                borrowBookButton.Enabled = true;
-                addBookButton.Enabled = true;
             }
             else
             {
-                welcomeLabel1.Text = "Спочатку увійдіть, будь ласка!";
-                myBooksButton.Enabled = false;
-                borrowedButton.Enabled = false;
+                welcomeLabel.Text = "Спочатку увійдіть, будь ласка!";
+                projectsButton.Enabled = false;
+                workersButton.Enabled = false;
+                activeProjectsButton.Enabled = false;
                 logoutButton.Enabled = false;
-
-                borrowBookButton.Enabled = false;
-                addBookButton.Enabled = false;
             }
         }
 
-        private void homeButton_Click(object sender, EventArgs e)
+        private void projectsButton_Click(object sender, EventArgs e)
         {
-            LoadHomePage();
+            LoadProjectsPage();
+        }
+
+        private void workersButton_Click(object sender, EventArgs e)
+        {
+            LoadWorkersPage();
+        }
+
+        private void activeProjectsButton_Click(object sender, EventArgs e)
+        {
+            LoadActiveProjectsPage();
         }
 
         public static void ConfigureDataGridView(DataGridView dataGridView)
@@ -154,11 +203,101 @@ namespace BookcrossingApp.Forms
             dataGridView.BackgroundColor = Color.FromArgb(48, 51, 58);
         }
 
-        private void SetupColumnsProperties(DataGridView dataGridView)
+        private void SetupProjectColumnsProperties(DataGridView dataGridView)
         {
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                if (column.Name == "ProjectID")
+                {
+                    column.HeaderText = "ID";
+                    column.FillWeight = 50;
+                }
+                else if (column.Name == "ProjectName")
+                {
+                    column.HeaderText = "Назва проекту";
+                    column.FillWeight = 150;
+                }
+                else if (column.Name == "ProjectType")
+                {
+                    column.HeaderText = "Тип";
+                    column.FillWeight = 100;
+                }
+                else if (column.Name == "Budget")
+                {
+                    column.HeaderText = "Бюджет";
+                    column.FillWeight = 100;
+                    column.DefaultCellStyle.Format = "C2";
+                }
+                else if (column.Name == "StartDate")
+                {
+                    column.HeaderText = "Дата початку";
+                    column.FillWeight = 100;
+                    column.DefaultCellStyle.Format = "dd.MM.yyyy";
+                }
+                else if (column.Name == "EndDate")
+                {
+                    column.HeaderText = "Дата завершення";
+                    column.FillWeight = 100;
+                    column.DefaultCellStyle.Format = "dd.MM.yyyy";
+                }
+                else if (column.Name == "Status")
+                {
+                    column.HeaderText = "Статус";
+                    column.FillWeight = 80;
+                }
+            }
+        }
+
+        private void SetupWorkerColumnsProperties(DataGridView dataGridView)
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                if (column.Name == "WorkerID")
+                {
+                    column.HeaderText = "ID";
+                    column.FillWeight = 50;
+                }
+                else if (column.Name == "FirstName")
+                {
+                    column.HeaderText = "Ім'я";
+                    column.FillWeight = 80;
+                }
+                else if (column.Name == "LastName")
+                {
+                    column.HeaderText = "Прізвище";
+                    column.FillWeight = 100;
+                }
+                else if (column.Name == "Position")
+                {
+                    column.HeaderText = "Посада";
+                    column.FillWeight = 120;
+                }
+                else if (column.Name == "Phone")
+                {
+                    column.HeaderText = "Телефон";
+                    column.FillWeight = 100;
+                }
+                else if (column.Name == "Email")
+                {
+                    column.HeaderText = "Email";
+                    column.FillWeight = 120;
+                }
+                else if (column.Name == "HireDate")
+                {
+                    column.HeaderText = "Дата прийому";
+                    column.FillWeight = 100;
+                    column.DefaultCellStyle.Format = "dd.MM.yyyy";
+                }
+                else if (column.Name == "Salary")
+                {
+                    column.HeaderText = "Зарплата";
+                    column.FillWeight = 100;
+                    column.DefaultCellStyle.Format = "C2";
+                }
             }
         }
 
@@ -173,128 +312,107 @@ namespace BookcrossingApp.Forms
             loginForm.Show();
         }
 
-        private void addBookButton_Click(object sender, EventArgs e)
+        private void addButton_Click(object sender, EventArgs e)
         {
-            AddBookForm addBookForm = new AddBookForm();
-            addBookForm.ShowDialog();
+            if (currentView == "projects" || currentView == "activeProjects")
+            {
+                AddProjectForm addProjectForm = new AddProjectForm();
+                addProjectForm.ShowDialog();
+                // Оновлюємо дані після додавання
+                if (currentView == "projects")
+                    LoadProjectsPage();
+                else
+                    LoadActiveProjectsPage();
+            }
+            else if (currentView == "workers")
+            {
+                AddWorkerForm addWorkerForm = new AddWorkerForm();
+                addWorkerForm.ShowDialog();
+                LoadWorkersPage();
+            }
         }
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
             UpdateCurrentForm();
 
-            if (HomeDataGridView.SelectedRows.Count <= 0)
+            if (mainDataGridView.Rows.Count == 0)
             {
-                LoadHomePage();
+                LoadProjectsPage();
             }
         }
 
-        private async void BorrowBook()
+        private void deleteButton_Click(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
-            borrowBookButton.Enabled = false;
+            DeleteSelectedItem();
+        }
 
-            if (HomeDataGridView.SelectedRows.Count > 0)
+        private async void DeleteSelectedItem()
+        {
+            if (mainDataGridView.SelectedRows.Count == 0)
             {
-                var selectedRow = HomeDataGridView.SelectedRows[0];
-
-                var bookToBorrow = new Book
-                {
-                    UniqueIdentifier = selectedRow.Cells["UniqueIdentifier"].Value?.ToString(),
-                    Title = selectedRow.Cells["Title"].Value?.ToString(),
-                    Author = selectedRow.Cells["Author"].Value?.ToString(),
-                    Description = selectedRow.Cells["Description"].Value?.ToString(),
-                    Status = selectedRow.Cells["Status"].Value?.ToString()
-                };
-
-                BookRepository bookRepository = new BookRepository();
-                bool isMyBook = await bookRepository.IsBookAddedByUserAsync(bookToBorrow.UniqueIdentifier, CurrentState.GetInstance().User.UniqueIdentifier);
-
-                if (bookToBorrow.Status != "Доступна" || isMyBook)
-                {
-                    MessageBox.Show("Ви не можете позичити дану книгу!");
-
-                    Cursor = Cursors.Default;
-                    borrowBookButton.Enabled = true;
-                    return;
-                }
-
-                bookToBorrow.Status = "Позичена";
-
-                await bookRepository.CreateOrUpdateBookAsync(bookToBorrow);
-
-                Record newRecord = new Record(new DateTime(), new DateTime());
-                RecordRepository recordRepository = new RecordRepository();
-                await recordRepository.CreateOrUpdateRecordAsync(newRecord);
-
-                await recordRepository.AddRecordToUserRelationshipAsync(newRecord.UniqueIdentifier, CurrentState.GetInstance().User.UniqueIdentifier);
-                await recordRepository.AddRecordToBookRelationshipAsync(newRecord.UniqueIdentifier, bookToBorrow.UniqueIdentifier);
-
-                MessageBox.Show($"Ви успішно позичили книгу '{bookToBorrow.Title}'");
-            }
-            else
-            {
-                MessageBox.Show("Спочатку оберіть книгу!");
+                MessageBox.Show("Оберіть рядок для видалення!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            Cursor = Cursors.Default;
-            borrowBookButton.Enabled = true;
-        }
+            var result = MessageBox.Show("Ви впевнені, що хочете видалити обраний елемент?",
+                "Підтвердження видалення", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-        private void borrowBookButton_Click(object sender, EventArgs e)
-        {
-            BorrowBook();
-        }
+            if (result != DialogResult.Yes) return;
 
-        private void myBooksButton_Click(object sender, EventArgs e)
-        {
-            LoadMyBooksPage();
-        }
-
-        private void borrowedButton_Click(object sender, EventArgs e)
-        {
-            LoadBorrowedPage();
-        }
-
-        private void deleteBookButton_Click(object sender, EventArgs e)
-        {
-            DeleteBook();
-        }
-
-        private async void DeleteBook()
-        {
-            deleteBookButton.Enabled = false;
+            deleteButton.Enabled = false;
             Cursor = Cursors.WaitCursor;
 
-            if (HomeDataGridView.SelectedRows.Count > 0)
+            try
             {
-                var selectedRow = HomeDataGridView.SelectedRows[0];
+                var selectedRow = mainDataGridView.SelectedRows[0];
 
-                var bookToDelete = new Book
+                if (currentView == "projects" || currentView == "activeProjects")
                 {
-                    UniqueIdentifier = selectedRow.Cells["UniqueIdentifier"].Value?.ToString(),
-                    Title = selectedRow.Cells["Title"].Value?.ToString(),
-                    Author = selectedRow.Cells["Author"].Value?.ToString(),
-                    Description = selectedRow.Cells["Description"].Value?.ToString(),
-                    Status = selectedRow.Cells["Status"].Value?.ToString()
-                };
+                    int projectId = (int)selectedRow.Cells["ProjectID"].Value;
+                    ProjectRepository projectRepository = new ProjectRepository();
+                    await projectRepository.DeleteProjectAsync(projectId);
 
-                BookRepository bookRepository = new BookRepository();
-                bool isMyBook = await bookRepository.IsBookAddedByUserAsync(bookToDelete.UniqueIdentifier, CurrentState.GetInstance().User.UniqueIdentifier);
-
-                if (isMyBook)
-                {
-                    await bookRepository.DeleteBookAsync(bookToDelete.UniqueIdentifier);
-                    LoadHomePage();
+                    if (currentView == "projects")
+                        LoadProjectsPage();
+                    else
+                        LoadActiveProjectsPage();
                 }
-                else
+                else if (currentView == "workers")
                 {
-                    MessageBox.Show("Ви не можете видалити книгу, яку ви не добавляли");
+                    int workerId = (int)selectedRow.Cells["WorkerID"].Value;
+                    WorkerRepository workerRepository = new WorkerRepository();
+                    await workerRepository.DeleteWorkerAsync(workerId);
+                    LoadWorkersPage();
                 }
+
+                MessageBox.Show("Елемент успішно видалено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при видаленні: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            deleteBookButton.Enabled = true;
+            deleteButton.Enabled = true;
             Cursor = Cursors.Default;
+        }
+
+        private void mainDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            bool hasSelection = mainDataGridView.SelectedRows.Count > 0;
+            editButton.Enabled = hasSelection;
+            deleteButton.Enabled = hasSelection;
+            assignButton.Enabled = hasSelection;
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            if (currentView == "projects")
+                LoadProjectsPage();
+            else if (currentView == "workers")
+                LoadWorkersPage();
+            else if (currentView == "activeProjects")
+                LoadActiveProjectsPage();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -302,48 +420,14 @@ namespace BookcrossingApp.Forms
             Application.Exit();
         }
 
-        private void returnBookButton_Click(object sender, EventArgs e)
+        private void editButton_Click(object sender, EventArgs e)
         {
-            ReturnBook();
+            MessageBox.Show("Функція редагування буде додана в наступних версіях.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private async void ReturnBook()
+        private void assignButton_Click(object sender, EventArgs e)
         {
-            returnBookButton.Enabled = false;
-            Cursor = Cursors.WaitCursor;
-
-            if (HomeDataGridView.SelectedRows.Count > 0)
-            {
-                var selectedRow = HomeDataGridView.SelectedRows[0];
-
-                var bookToReturn = new Book
-                {
-                    UniqueIdentifier = selectedRow.Cells["UniqueIdentifier"].Value?.ToString(),
-                    Title = selectedRow.Cells["Title"].Value?.ToString(),
-                    Author = selectedRow.Cells["Author"].Value?.ToString(),
-                    Description = selectedRow.Cells["Description"].Value?.ToString(),
-                    Status = selectedRow.Cells["Status"].Value?.ToString()
-                };
-
-                bookToReturn.Status = "Доступна";
-                BookRepository bookRepository = new BookRepository();
-                await bookRepository.CreateOrUpdateBookAsync(bookToReturn);
-
-                UserRepository userRepository = new UserRepository();
-                Record findedRecord = await userRepository.GetRecordAddedByUserAsync(CurrentState.GetInstance().User.UniqueIdentifier, bookToReturn.UniqueIdentifier);
-                RecordRepository recordRepository = new RecordRepository();
-                await recordRepository.DeleteRecordAsync(findedRecord.UniqueIdentifier);
-
-                MessageBox.Show($"Ви успішно повернули книгу '{bookToReturn.Title}'");
-            }
-
-            returnBookButton.Enabled = true;
-            Cursor = Cursors.Default;
-        }
-
-        private void refreshButton_Click(object sender, EventArgs e)
-        {
-            LoadHomePage();
+            MessageBox.Show("Функція призначення буде додана в наступних версіях.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

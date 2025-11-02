@@ -1,4 +1,4 @@
-﻿namespace BookcrossingApp
+﻿namespace FilmStudioManager
 {
     partial class RegistrationForm
     {
@@ -28,161 +28,173 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.topPanel = new System.Windows.Forms.Panel();
-            this.passwordLabel = new System.Windows.Forms.Label();
-            this.loginLabel = new System.Windows.Forms.Label();
-            this.passwordTextBox = new System.Windows.Forms.TextBox();
-            this.loginTextBox = new System.Windows.Forms.TextBox();
-            this.emailLabel = new System.Windows.Forms.Label();
-            this.emailTextBox = new System.Windows.Forms.TextBox();
-            this.registerButton = new System.Windows.Forms.Button();
-            this.goToLoginLabel = new System.Windows.Forms.Label();
-            this.createTestDatabaseСheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.topPanel.SuspendLayout();
-            this.SuspendLayout();
+            topPanel = new Panel();
+            label1 = new Label();
+            passwordLabel = new Label();
+            loginLabel = new Label();
+            passwordTextBox = new TextBox();
+            loginTextBox = new TextBox();
+            emailLabel = new Label();
+            emailTextBox = new TextBox();
+            registerButton = new Button();
+            goToLoginLabel = new Label();
+            createTestDatabaseCheckBox = new CheckBox();
+            topPanel.SuspendLayout();
+            SuspendLayout();
             // 
             // topPanel
             // 
-            this.topPanel.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.topPanel.Controls.Add(this.label1);
-            this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(397, 144);
-            this.topPanel.TabIndex = 13;
-            // 
-            // passwordLabel
-            // 
-            this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passwordLabel.Location = new System.Drawing.Point(19, 357);
-            this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(70, 23);
-            this.passwordLabel.TabIndex = 18;
-            this.passwordLabel.Text = "Пароль";
-            // 
-            // loginLabel
-            // 
-            this.loginLabel.AutoSize = true;
-            this.loginLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginLabel.Location = new System.Drawing.Point(19, 278);
-            this.loginLabel.Name = "loginLabel";
-            this.loginLabel.Size = new System.Drawing.Size(146, 23);
-            this.loginLabel.TabIndex = 17;
-            this.loginLabel.Text = "Ім\'я Користувача";
-            // 
-            // passwordTextBox
-            // 
-            this.passwordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.passwordTextBox.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passwordTextBox.Location = new System.Drawing.Point(23, 383);
-            this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(350, 37);
-            this.passwordTextBox.TabIndex = 3;
-            // 
-            // loginTextBox
-            // 
-            this.loginTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.loginTextBox.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginTextBox.Location = new System.Drawing.Point(23, 304);
-            this.loginTextBox.Name = "loginTextBox";
-            this.loginTextBox.Size = new System.Drawing.Size(350, 37);
-            this.loginTextBox.TabIndex = 1;
-            // 
-            // emailLabel
-            // 
-            this.emailLabel.AutoSize = true;
-            this.emailLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.emailLabel.Location = new System.Drawing.Point(19, 197);
-            this.emailLabel.Name = "emailLabel";
-            this.emailLabel.Size = new System.Drawing.Size(159, 23);
-            this.emailLabel.TabIndex = 20;
-            this.emailLabel.Text = "Електронна Пошта";
-            // 
-            // emailTextBox
-            // 
-            this.emailTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.emailTextBox.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.emailTextBox.Location = new System.Drawing.Point(23, 223);
-            this.emailTextBox.Name = "emailTextBox";
-            this.emailTextBox.Size = new System.Drawing.Size(350, 37);
-            this.emailTextBox.TabIndex = 0;
-            // 
-            // registerButton
-            // 
-            this.registerButton.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.registerButton.FlatAppearance.BorderSize = 0;
-            this.registerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.registerButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.registerButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.registerButton.Location = new System.Drawing.Point(23, 549);
-            this.registerButton.Name = "registerButton";
-            this.registerButton.Size = new System.Drawing.Size(350, 50);
-            this.registerButton.TabIndex = 4;
-            this.registerButton.Text = "Зареєструватися";
-            this.registerButton.UseVisualStyleBackColor = false;
-            this.registerButton.Click += new System.EventHandler(this.RegisterButton_Click);
-            // 
-            // goToLoginLabel
-            // 
-            this.goToLoginLabel.AutoSize = true;
-            this.goToLoginLabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.goToLoginLabel.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.goToLoginLabel.Location = new System.Drawing.Point(175, 602);
-            this.goToLoginLabel.Name = "goToLoginLabel";
-            this.goToLoginLabel.Size = new System.Drawing.Size(59, 23);
-            this.goToLoginLabel.TabIndex = 21;
-            this.goToLoginLabel.Text = "Увійти";
-            this.goToLoginLabel.Click += new System.EventHandler(this.goToLoginLabel_Click);
-            // 
-            // createTestDatabaseСheckBox
-            // 
-            this.createTestDatabaseСheckBox.AutoSize = true;
-            this.createTestDatabaseСheckBox.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.createTestDatabaseСheckBox.Location = new System.Drawing.Point(23, 442);
-            this.createTestDatabaseСheckBox.Name = "createTestDatabaseСheckBox";
-            this.createTestDatabaseСheckBox.Size = new System.Drawing.Size(280, 27);
-            this.createTestDatabaseСheckBox.TabIndex = 22;
-            this.createTestDatabaseСheckBox.Text = "Створити початкову базу даних";
-            this.createTestDatabaseСheckBox.UseVisualStyleBackColor = true;
+            topPanel.BackColor = Color.MediumSlateBlue;
+            topPanel.Controls.Add(label1);
+            topPanel.Dock = DockStyle.Top;
+            topPanel.Location = new Point(0, 0);
+            topPanel.Margin = new Padding(4, 5, 4, 5);
+            topPanel.Name = "topPanel";
+            topPanel.Size = new Size(529, 222);
+            topPanel.TabIndex = 13;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(118, 52);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 39);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Реєстрація";
+            label1.AutoSize = true;
+            label1.Font = new Font("Calibri", 24F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            label1.ForeColor = SystemColors.ButtonFace;
+            label1.Location = new Point(157, 80);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(207, 49);
+            label1.TabIndex = 12;
+            label1.Text = "Реєстрація";
+            // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            passwordLabel.Location = new Point(25, 549);
+            passwordLabel.Margin = new Padding(4, 0, 4, 0);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new Size(89, 29);
+            passwordLabel.TabIndex = 18;
+            passwordLabel.Text = "Пароль";
+            // 
+            // loginLabel
+            // 
+            loginLabel.AutoSize = true;
+            loginLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            loginLabel.Location = new Point(25, 428);
+            loginLabel.Margin = new Padding(4, 0, 4, 0);
+            loginLabel.Name = "loginLabel";
+            loginLabel.Size = new Size(185, 29);
+            loginLabel.TabIndex = 17;
+            loginLabel.Text = "Ім'я Користувача";
+            // 
+            // passwordTextBox
+            // 
+            passwordTextBox.BorderStyle = BorderStyle.FixedSingle;
+            passwordTextBox.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            passwordTextBox.Location = new Point(31, 589);
+            passwordTextBox.Margin = new Padding(4, 5, 4, 5);
+            passwordTextBox.Name = "passwordTextBox";
+            passwordTextBox.Size = new Size(466, 44);
+            passwordTextBox.TabIndex = 3;
+            // 
+            // loginTextBox
+            // 
+            loginTextBox.BorderStyle = BorderStyle.FixedSingle;
+            loginTextBox.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            loginTextBox.Location = new Point(31, 468);
+            loginTextBox.Margin = new Padding(4, 5, 4, 5);
+            loginTextBox.Name = "loginTextBox";
+            loginTextBox.Size = new Size(466, 44);
+            loginTextBox.TabIndex = 1;
+            // 
+            // emailLabel
+            // 
+            emailLabel.AutoSize = true;
+            emailLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            emailLabel.Location = new Point(25, 303);
+            emailLabel.Margin = new Padding(4, 0, 4, 0);
+            emailLabel.Name = "emailLabel";
+            emailLabel.Size = new Size(204, 29);
+            emailLabel.TabIndex = 20;
+            emailLabel.Text = "Електронна Пошта";
+            // 
+            // emailTextBox
+            // 
+            emailTextBox.BorderStyle = BorderStyle.FixedSingle;
+            emailTextBox.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            emailTextBox.Location = new Point(31, 343);
+            emailTextBox.Margin = new Padding(4, 5, 4, 5);
+            emailTextBox.Name = "emailTextBox";
+            emailTextBox.Size = new Size(466, 44);
+            emailTextBox.TabIndex = 0;
+            // 
+            // registerButton
+            // 
+            registerButton.BackColor = Color.MediumSlateBlue;
+            registerButton.FlatAppearance.BorderSize = 0;
+            registerButton.FlatStyle = FlatStyle.Flat;
+            registerButton.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            registerButton.ForeColor = Color.WhiteSmoke;
+            registerButton.Location = new Point(31, 845);
+            registerButton.Margin = new Padding(4, 5, 4, 5);
+            registerButton.Name = "registerButton";
+            registerButton.Size = new Size(467, 77);
+            registerButton.TabIndex = 4;
+            registerButton.Text = "Зареєструватися";
+            registerButton.UseVisualStyleBackColor = false;
+            registerButton.Click += RegisterButton_Click;
+            // 
+            // goToLoginLabel
+            // 
+            goToLoginLabel.AutoSize = true;
+            goToLoginLabel.Cursor = Cursors.Hand;
+            goToLoginLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            goToLoginLabel.Location = new Point(233, 926);
+            goToLoginLabel.Margin = new Padding(4, 0, 4, 0);
+            goToLoginLabel.Name = "goToLoginLabel";
+            goToLoginLabel.Size = new Size(78, 29);
+            goToLoginLabel.TabIndex = 21;
+            goToLoginLabel.Text = "Увійти";
+            goToLoginLabel.Click += goToLoginLabel_Click;
+            // 
+            // createTestDatabaseCheckBox
+            // 
+            createTestDatabaseCheckBox.AutoSize = true;
+            createTestDatabaseCheckBox.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            createTestDatabaseCheckBox.Location = new Point(31, 680);
+            createTestDatabaseCheckBox.Margin = new Padding(4, 5, 4, 5);
+            createTestDatabaseCheckBox.Name = "createTestDatabaseCheckBox";
+            createTestDatabaseCheckBox.Size = new Size(357, 33);
+            createTestDatabaseCheckBox.TabIndex = 22;
+            createTestDatabaseCheckBox.Text = "Створити початкову базу даних";
+            createTestDatabaseCheckBox.UseVisualStyleBackColor = true;
             // 
             // RegistrationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 651);
-            this.Controls.Add(this.createTestDatabaseСheckBox);
-            this.Controls.Add(this.goToLoginLabel);
-            this.Controls.Add(this.registerButton);
-            this.Controls.Add(this.emailLabel);
-            this.Controls.Add(this.emailTextBox);
-            this.Controls.Add(this.passwordLabel);
-            this.Controls.Add(this.loginLabel);
-            this.Controls.Add(this.passwordTextBox);
-            this.Controls.Add(this.loginTextBox);
-            this.Controls.Add(this.topPanel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "RegistrationForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RegistrationForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RegistrationForm_FormClosed);
-            this.topPanel.ResumeLayout(false);
-            this.topPanel.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(529, 1002);
+            Controls.Add(createTestDatabaseCheckBox);
+            Controls.Add(goToLoginLabel);
+            Controls.Add(registerButton);
+            Controls.Add(emailLabel);
+            Controls.Add(emailTextBox);
+            Controls.Add(passwordLabel);
+            Controls.Add(loginLabel);
+            Controls.Add(passwordTextBox);
+            Controls.Add(loginTextBox);
+            Controls.Add(topPanel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            Name = "RegistrationForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "RegistrationForm";
+            FormClosed += RegistrationForm_FormClosed;
+            topPanel.ResumeLayout(false);
+            topPanel.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -197,7 +209,7 @@
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.Button registerButton;
         private System.Windows.Forms.Label goToLoginLabel;
-        private System.Windows.Forms.CheckBox createTestDatabaseСheckBox;
+        private System.Windows.Forms.CheckBox createTestDatabaseCheckBox;
         private System.Windows.Forms.Label label1;
     }
 }

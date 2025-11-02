@@ -1,4 +1,4 @@
-﻿namespace BookcrossingApp.Forms
+﻿namespace FilmStudioManager.Forms
 {
     partial class LoginForm
     {

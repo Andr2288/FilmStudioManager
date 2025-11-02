@@ -1,189 +1,94 @@
-﻿using BookcrossingApp.Models;
-using BookcrossingApp.Services;
-using Neo4j.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FilmStudioManager.Models;
+using FilmStudioManager.Services;
+using Microsoft.Data.SqlClient;
 
-namespace BookcrossingApp.Repositories
+namespace FilmStudioManager.Repositories
 {
     public class UserRepository
     {
-
         public async Task<List<User>> GetAllUsersAsync()
         {
-            var query = "MATCH (u:User) RETURN u";
+            var users = new List<User>();
 
-            return await Neo4jQueryExecutor.ExecuteReadAsync(async queryRunner =>
+            using var connection = DatabaseService.GetConnection();
+            await connection.OpenAsync();
+
+            string query = "SELECT UserID, Login, Password, Email FROM Users";
+
+            using var command = new SqlCommand(query, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
             {
-                var cursor = await queryRunner.RunAsync(query);
-                var users = new List<User>();
-
-                while (await cursor.FetchAsync())
+                var user = new User
                 {
-                    var node = cursor.Current[0].As<INode>();
-                    var user = new User
-                    {
-                        UniqueIdentifier = node.Properties["UniqueIdentifier"].As<string>(),
-                        Login = node.Properties["Login"].As<string>(),
-                        Password = node.Properties["Password"].As<string>(),
-                        Email = node.Properties["Email"].As<string>()
-                    };
-                    users.Add(user);
-                }
+                    UserID = reader.GetInt32("UserID"),
+                    Login = reader.GetString("Login"),
+                    Password = reader.GetString("Password"),
+                    Email = reader.GetString("Email")
+                };
+                users.Add(user);
+            }
 
-                return users;
-            });
+            return users;
+        }
+
+        public async Task<User> GetUserByLoginAsync(string login)
+        {
+            using var connection = DatabaseService.GetConnection();
+            await connection.OpenAsync();
+
+            string query = "SELECT UserID, Login, Password, Email FROM Users WHERE Login = @Login";
+
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Login", login);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new User
+                {
+                    UserID = reader.GetInt32("UserID"),
+                    Login = reader.GetString("Login"),
+                    Password = reader.GetString("Password"),
+                    Email = reader.GetString("Email")
+                };
+            }
+
+            return null;
         }
 
         public async Task CreateUserAsync(User user)
         {
-            var query = @"
-                CREATE (u:User { 
-                    UniqueIdentifier: $UniqueIdentifier,
-                    Login: $Login,
-                    Password: $Password,
-                    Email: $Email
-                })
-            ";
+            using var connection = DatabaseService.GetConnection();
+            await connection.OpenAsync();
 
-            var parameters = new Dictionary<string, object>
-            {
-                { "UniqueIdentifier", user.UniqueIdentifier },
-                { "Login", user.Login },
-                { "Password", user.Password },
-                { "Email", user.Email }
-            };
+            string query = @"
+                INSERT INTO Users (Login, Password, Email)
+                VALUES (@Login, @Password, @Email)";
 
-            await Neo4jQueryExecutor.ExecuteWriteAsync(async queryRunner =>
-            {
-                await queryRunner.RunAsync(query, parameters);
-            });
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Login", user.Login);
+            command.Parameters.AddWithValue("@Password", user.Password);
+            command.Parameters.AddWithValue("@Email", user.Email);
+
+            await command.ExecuteNonQueryAsync();
         }
 
-        public async Task AddUserAddedBookRelationshipAsync(string userUniqueIdentifier, string bookUniqueIdentifier)
+        public async Task<bool> UserExistsAsync(string login, string email)
         {
-            if (string.IsNullOrWhiteSpace(userUniqueIdentifier))
-                throw new ArgumentException("User UniqueIdentifier is required.", nameof(userUniqueIdentifier));
+            using var connection = DatabaseService.GetConnection();
+            await connection.OpenAsync();
 
-            if (string.IsNullOrWhiteSpace(bookUniqueIdentifier))
-                throw new ArgumentException("Book UniqueIdentifier is required.", nameof(bookUniqueIdentifier));
+            string query = "SELECT COUNT(*) FROM Users WHERE Login = @Login OR Email = @Email";
 
-            var query = @"
-                MATCH (u:User {UniqueIdentifier: $userUniqueIdentifier})
-                MATCH (b:Book {UniqueIdentifier: $bookUniqueIdentifier})
-                MERGE (u)-[:ADDED]->(b)
-                RETURN u, b";
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Login", login);
+            command.Parameters.AddWithValue("@Email", email);
 
-            var parameters = new
-            {
-                userUniqueIdentifier,
-                bookUniqueIdentifier
-            };
-
-            await Neo4jQueryExecutor.ExecuteWriteAsync(async queryRunner =>
-            {
-                var cursor = await queryRunner.RunAsync(query, parameters);
-                await cursor.ConsumeAsync();
-            });
-        }
-
-        public async Task<List<Book>> GetBooksAddedByUserAsync(string userUniqueIdentifier)
-        {
-            if (string.IsNullOrWhiteSpace(userUniqueIdentifier))
-                throw new ArgumentException("User UniqueIdentifier is required.", nameof(userUniqueIdentifier));
-
-            var query = @"
-                MATCH (u:User {UniqueIdentifier: $userUniqueIdentifier})-[:ADDED]->(b:Book)
-                RETURN b";
-
-            return await Neo4jQueryExecutor.ExecuteReadAsync(async queryRunner =>
-            {
-                var cursor = await queryRunner.RunAsync(query, new { userUniqueIdentifier });
-                var books = new List<Book>();
-
-                while (await cursor.FetchAsync())
-                {
-                    var node = cursor.Current[0].As<INode>();
-                    var book = new Book
-                    {
-                        UniqueIdentifier = node.Properties["UniqueIdentifier"].As<string>(),
-                        Title = node.Properties["Title"].As<string>(),
-                        Author = node.Properties["Author"].As<string>(),
-                        Description = node.Properties["Description"].As<string>(),
-                        Status = node.Properties["Status"].As<string>()
-                    };
-                    books.Add(book);
-                }
-
-                return books;
-            });
-        }
-
-        public async Task<List<Book>> GetBooksReferencedByUserRecordsAsync(string userUniqueIdentifier)
-        {
-            if (string.IsNullOrWhiteSpace(userUniqueIdentifier))
-                throw new ArgumentException("User UniqueIdentifier is required.", nameof(userUniqueIdentifier));
-
-            var query = @"
-                MATCH (u:User {UniqueIdentifier: $userUniqueIdentifier})<-[:MADE_BY]-(r:Record)-[:REFERS_TO]->(b:Book)
-                RETURN b";
-
-            return await Neo4jQueryExecutor.ExecuteReadAsync(async queryRunner =>
-            {
-                var cursor = await queryRunner.RunAsync(query, new { userUniqueIdentifier });
-                var books = new List<Book>();
-
-                while (await cursor.FetchAsync())
-                {
-                    var node = cursor.Current[0].As<INode>();
-                    var book = new Book
-                    {
-                        UniqueIdentifier = node.Properties["UniqueIdentifier"].As<string>(),
-                        Title = node.Properties["Title"].As<string>(),
-                        Author = node.Properties["Author"].As<string>(),
-                        Description = node.Properties["Description"].As<string>(),
-                        Status = node.Properties["Status"].As<string>()
-                    };
-                    books.Add(book);
-                }
-
-                return books;
-            });
-        }
-
-        public async Task<Record> GetRecordAddedByUserAsync(string userUniqueIdentifier, string bookUniqueIdentifier)
-        {
-            if (string.IsNullOrWhiteSpace(userUniqueIdentifier))
-                throw new ArgumentException("User UniqueIdentifier is required.", nameof(userUniqueIdentifier));
-
-            if (string.IsNullOrWhiteSpace(bookUniqueIdentifier))
-                throw new ArgumentException("Book UniqueIdentifier is required.", nameof(bookUniqueIdentifier));
-
-            var query = @"
-        MATCH (u:User {UniqueIdentifier: $userUniqueIdentifier})<-[:MADE_BY]-(r:Record)-[:REFERS_TO]->(b:Book {UniqueIdentifier: $bookUniqueIdentifier})
-        RETURN r
-        LIMIT 1";
-
-            return await Neo4jQueryExecutor.ExecuteReadAsync(async queryRunner =>
-            {
-                var cursor = await queryRunner.RunAsync(query, new { userUniqueIdentifier, bookUniqueIdentifier });
-                if (await cursor.FetchAsync())
-                {
-                    var node = cursor.Current[0].As<INode>();
-                    return new Record
-                    {
-                        UniqueIdentifier = node.Properties["UniqueIdentifier"].As<string>(),
-                        BorrowDate = node.Properties["BorrowDate"].As<DateTime>(),
-                        ReturnDate = node.Properties.ContainsKey("ReturnDate") && node.Properties["ReturnDate"] != null
-                            ? (DateTime?)node.Properties["ReturnDate"].As<DateTime>()
-                            : null
-                    };
-                }
-                return null;
-            });
+            int count = (int)await command.ExecuteScalarAsync();
+            return count > 0;
         }
     }
 }

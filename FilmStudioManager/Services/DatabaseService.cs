@@ -1,78 +1,49 @@
-﻿using Neo4j.Driver;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
 
-namespace BookcrossingApp.Services
+namespace FilmStudioManager.Services
 {
     public static class DatabaseService
     {
+        private static string _connectionString;
 
-        private static IDriver _driver;
-
-        public static void Connect(string uri, string userName, string password)
+        public static void Connect(string connectionString)
         {
-            _driver = GraphDatabase.Driver(uri, AuthTokens.Basic(userName, password));
+            _connectionString = connectionString;
         }
 
         public static async Task<bool> TestConnectionAsync()
         {
-            IAsyncSession session = null;
             try
             {
-                var driver = GetDriver();
+                using var connection = new SqlConnection(_connectionString);
+                await connection.OpenAsync();
 
-                session = driver.AsyncSession();
+                using var command = new SqlCommand("SELECT 1", connection);
+                var result = await command.ExecuteScalarAsync();
 
-                var readTask = session.ExecuteReadAsync(async tx =>
-                {
-                    var cursor = await tx.RunAsync("RETURN 1 AS result");
-                    await cursor.ConsumeAsync();
-                    return true;
-                });
-
-                var timeout = TimeSpan.FromSeconds(5);
-                var delayTask = Task.Delay(timeout);
-
-                var completedTask = await Task.WhenAny(readTask, delayTask);
-
-                if (completedTask == readTask)
-                {
-                    return await readTask;
-                }
-                else
-                {
-                    Console.WriteLine("Database connection test timed out.");
-                    return false;
-                }
+                return result != null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Database connection test failed: {ex.Message}");
                 return false;
             }
-            finally
-            {
-                if (session != null)
-                {
-                    await session.CloseAsync();
-                }
-            }
         }
 
-        public static IDriver GetDriver()
+        public static SqlConnection GetConnection()
         {
-            if (_driver == null)
+            if (string.IsNullOrEmpty(_connectionString))
                 throw new InvalidOperationException("Database is not connected.");
 
-            return _driver;
+            return new SqlConnection(_connectionString);
         }
 
-        public static async Task CloseAsync()
+        public static string GetConnectionString()
         {
-            if (_driver != null)
-            {
-                await _driver.DisposeAsync();
-            }
+            if (string.IsNullOrEmpty(_connectionString))
+                throw new InvalidOperationException("Database is not connected.");
+
+            return _connectionString;
         }
     }
 }

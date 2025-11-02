@@ -1,25 +1,18 @@
-﻿using BookcrossingApp.Utils;
-using System.Collections.Generic;
-
-namespace BookcrossingApp.Models
+﻿namespace FilmStudioManager.Models
 {
-    public class User : INodeModel
+    public class User
     {
-        public string UniqueIdentifier { get; set; }
-
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public int UserID { get; set; }
+        public string Login { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         public User()
         {
-            UniqueIdentifier = IdGenerator.GenerateUniqueId();
         }
 
         public User(string login, string password, string email)
         {
-            UniqueIdentifier = IdGenerator.GenerateUniqueId();
-
             Login = login;
             Password = password;
             Email = email;
@@ -28,7 +21,7 @@ namespace BookcrossingApp.Models
         public override bool Equals(object obj)
         {
             return obj is User user &&
-                   UniqueIdentifier == user.UniqueIdentifier &&
+                   UserID == user.UserID &&
                    Login == user.Login &&
                    Password == user.Password &&
                    Email == user.Email;
@@ -36,12 +29,7 @@ namespace BookcrossingApp.Models
 
         public override int GetHashCode()
         {
-            int hashCode = 483917726;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UniqueIdentifier);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Login);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Password);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Email);
-            return hashCode;
+            return HashCode.Combine(UserID, Login, Password, Email);
         }
     }
 }

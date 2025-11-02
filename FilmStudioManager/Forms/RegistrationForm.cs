@@ -1,8 +1,7 @@
-﻿using BookcrossingApp.Forms;
-using BookcrossingApp.Models;
-using BookcrossingApp.Repositories;
-using BookcrossingApp.Services;
-using BookcrossingApp.Utils;
+﻿using FilmStudioManager.Forms;
+using FilmStudioManager.Models;
+using FilmStudioManager.Repositories;
+using FilmStudioManager.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,15 +12,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BookcrossingApp
+namespace FilmStudioManager
 {
-    public partial class RegistrationForm: Form
+    public partial class RegistrationForm : Form
     {
         public RegistrationForm()
         {
             InitializeComponent();
 
-            DatabaseService.Connect("neo4j://localhost:7687", "neo4j", "1234567890");
+            string connectionString = "Server=localhost;Database=FilmStudioManager;Integrated Security=True;TrustServerCertificate=True;";
+            DatabaseService.Connect(connectionString);
         }
 
         private async Task<bool> CheckDatabaseConnection()
@@ -58,26 +58,34 @@ namespace BookcrossingApp
             string loginField = loginTextBox.Text.Trim();
             string passwordField = passwordTextBox.Text.Trim();
 
-            if (createTestDatabaseСheckBox.Checked)
+            if (createTestDatabaseCheckBox.Checked)
             {
-                DataGenerator.CreateTestData();
+                try
+                {
+                    await DatabaseInitializer.InitializeDatabaseAsync();
+                    MessageBox.Show("Тестову базу даних створено успішно!", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Помилка створення тестової БД: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Cursor = Cursors.Default;
+                    registerButton.Enabled = true;
+                    return;
+                }
             }
 
             if (!ValidateRegistrationFields(emailField, loginField, passwordField))
             {
                 Cursor = Cursors.Default;
                 registerButton.Enabled = true;
-
                 return;
             }
 
             try
             {
                 UserRepository userRepository = new UserRepository();
-                List<User> users = await userRepository.GetAllUsersAsync();
-                User findedUser = users.FirstOrDefault(user => user.Login == loginField || user.Email == emailField);
 
-                if (findedUser != null)
+                if (await userRepository.UserExistsAsync(loginField, emailField))
                 {
                     MessageBox.Show("Користувач з такими даними вже існує.", "Помилка реєстрації", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -85,7 +93,11 @@ namespace BookcrossingApp
                 {
                     User newUser = new User(loginField, passwordField, emailField);
                     await userRepository.CreateUserAsync(newUser);
-                    CurrentState.GetInstance().User = newUser;
+
+                    // Отримуємо створеного користувача з ID
+                    User createdUser = await userRepository.GetUserByLoginAsync(loginField);
+                    CurrentState.GetInstance().User = createdUser;
+
                     MessageBox.Show("Користувача успішно створено!", "Реєстрацію завершено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
 
@@ -108,7 +120,7 @@ namespace BookcrossingApp
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Усі поля є обов'язковими для заповнення.",
-        "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -117,14 +129,14 @@ namespace BookcrossingApp
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase))
             {
                 MessageBox.Show("Будь ласка, введіть коректну електронну адресу.",
-        "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             if (login.Length < 3 || !System.Text.RegularExpressions.Regex.IsMatch(login, @"^[a-zA-Z0-9_]+$"))
             {
-                MessageBox.Show("Ім’я користувача повинно містити щонайменше 3 символи і складатися лише з літер, цифр та підкреслень.",
-        "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ім'я користувача повинно містити щонайменше 3 символи і складатися лише з літер, цифр та підкреслень.",
+                    "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -136,7 +148,7 @@ namespace BookcrossingApp
             if (!(hasUpperCase && hasLowerCase && hasDigit && hasMinimumLength))
             {
                 MessageBox.Show("Пароль має бути не менше 6 символів і містити принаймні одну велику літеру, одну малу літеру та одну цифру.",
-        "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "Помилка перевірки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 

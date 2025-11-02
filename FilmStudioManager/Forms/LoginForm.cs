@@ -1,13 +1,8 @@
-﻿using BookcrossingApp.Models;
-using BookcrossingApp.Repositories;
-using BookcrossingApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using FilmStudioManager.Models;
+using FilmStudioManager.Repositories;
+using FilmStudioManager.Services;
 
-namespace BookcrossingApp.Forms
+namespace FilmStudioManager.Forms
 {
     public partial class LoginForm: Form
     {
@@ -15,7 +10,8 @@ namespace BookcrossingApp.Forms
         {
             InitializeComponent();
 
-            DatabaseService.Connect("neo4j://localhost:7687", "neo4j", "1234567890");
+            string connectionString = "Server=localhost;Database=FilmStudioManager;Integrated Security=True;TrustServerCertificate=True;";
+            DatabaseService.Connect(connectionString);
         }
 
         private async Task<bool> CheckDatabaseConnection()
