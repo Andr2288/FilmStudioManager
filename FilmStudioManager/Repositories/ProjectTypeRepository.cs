@@ -1,6 +1,7 @@
 ﻿using FilmStudioManager.Models;
 using FilmStudioManager.Services;
 using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Text;
 
 namespace FilmStudioManager.Repositories
@@ -32,7 +33,7 @@ namespace FilmStudioManager.Repositories
             return projectTypes;
         }
 
-        public async Task<ProjectType> GetProjectTypeByIdAsync(int projectTypeId)
+        public async Task<ProjectType?> GetProjectTypeByIdAsync(int projectTypeId)
         {
             using var connection = DatabaseService.GetConnection();
             await connection.OpenAsync();
@@ -56,7 +57,7 @@ namespace FilmStudioManager.Repositories
             return null;
         }
 
-        public async Task<ProjectType> GetProjectTypeByNameAsync(string typeName)
+        public async Task<ProjectType?> GetProjectTypeByNameAsync(string typeName)
         {
             using var connection = DatabaseService.GetConnection();
             await connection.OpenAsync();

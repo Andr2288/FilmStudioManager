@@ -1,6 +1,7 @@
 ﻿using FilmStudioManager.Models;
 using FilmStudioManager.Services;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace FilmStudioManager.Repositories
 {
@@ -33,7 +34,7 @@ namespace FilmStudioManager.Repositories
             return users;
         }
 
-        public async Task<User> GetUserByLoginAsync(string login)
+        public async Task<User?> GetUserByLoginAsync(string login)
         {
             using var connection = DatabaseService.GetConnection();
             await connection.OpenAsync();

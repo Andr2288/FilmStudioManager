@@ -1,6 +1,7 @@
 ﻿using FilmStudioManager.Models;
 using FilmStudioManager.Services;
 using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Text;
 
 namespace FilmStudioManager.Repositories
@@ -41,7 +42,7 @@ namespace FilmStudioManager.Repositories
             return workers;
         }
 
-        public async Task<Worker> GetWorkerByIdAsync(int workerId)
+        public async Task<Worker?> GetWorkerByIdAsync(int workerId)
         {
             using var connection = DatabaseService.GetConnection();
             await connection.OpenAsync();
@@ -87,8 +88,8 @@ namespace FilmStudioManager.Repositories
             command.Parameters.AddWithValue("@FirstName", worker.FirstName);
             command.Parameters.AddWithValue("@LastName", worker.LastName);
             command.Parameters.AddWithValue("@Position", worker.Position);
-            command.Parameters.AddWithValue("@Phone", (object)worker.Phone ?? DBNull.Value);
-            command.Parameters.AddWithValue("@Email", (object)worker.Email ?? DBNull.Value);
+            command.Parameters.AddWithValue("@Phone", (object?)worker.Phone ?? DBNull.Value);
+            command.Parameters.AddWithValue("@Email", (object?)worker.Email ?? DBNull.Value);
             command.Parameters.AddWithValue("@HireDate", worker.HireDate);
             command.Parameters.AddWithValue("@Salary", worker.Salary);
 
@@ -111,8 +112,8 @@ namespace FilmStudioManager.Repositories
             command.Parameters.AddWithValue("@FirstName", worker.FirstName);
             command.Parameters.AddWithValue("@LastName", worker.LastName);
             command.Parameters.AddWithValue("@Position", worker.Position);
-            command.Parameters.AddWithValue("@Phone", (object)worker.Phone ?? DBNull.Value);
-            command.Parameters.AddWithValue("@Email", (object)worker.Email ?? DBNull.Value);
+            command.Parameters.AddWithValue("@Phone", (object?)worker.Phone ?? DBNull.Value);
+            command.Parameters.AddWithValue("@Email", (object?)worker.Email ?? DBNull.Value);
             command.Parameters.AddWithValue("@HireDate", worker.HireDate);
             command.Parameters.AddWithValue("@Salary", worker.Salary);
 

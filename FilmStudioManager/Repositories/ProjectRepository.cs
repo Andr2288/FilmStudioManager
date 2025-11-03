@@ -41,7 +41,7 @@ namespace FilmStudioManager.Repositories
             return projects;
         }
 
-        public async Task<Project> GetProjectByIdAsync(int projectId)
+        public async Task<Project?> GetProjectByIdAsync(int projectId)
         {
             using var connection = DatabaseService.GetConnection();
             await connection.OpenAsync();
@@ -88,7 +88,7 @@ namespace FilmStudioManager.Repositories
             command.Parameters.AddWithValue("@ProjectTypeID", project.ProjectTypeID);
             command.Parameters.AddWithValue("@Budget", project.Budget);
             command.Parameters.AddWithValue("@StartDate", project.StartDate);
-            command.Parameters.AddWithValue("@EndDate", (object)project.EndDate ?? DBNull.Value);
+            command.Parameters.AddWithValue("@EndDate", (object?)project.EndDate ?? DBNull.Value);
             command.Parameters.AddWithValue("@Status", project.Status);
 
             return (int)await command.ExecuteScalarAsync();
@@ -111,7 +111,7 @@ namespace FilmStudioManager.Repositories
             command.Parameters.AddWithValue("@ProjectTypeID", project.ProjectTypeID);
             command.Parameters.AddWithValue("@Budget", project.Budget);
             command.Parameters.AddWithValue("@StartDate", project.StartDate);
-            command.Parameters.AddWithValue("@EndDate", (object)project.EndDate ?? DBNull.Value);
+            command.Parameters.AddWithValue("@EndDate", (object?)project.EndDate ?? DBNull.Value);
             command.Parameters.AddWithValue("@Status", project.Status);
 
             await command.ExecuteNonQueryAsync();
